@@ -4,7 +4,7 @@ project(Communication)
 option(PLUGIN_COMMUNICATION_Oscpack "Make use of the Oscpack protocol" OFF)
 option(PLUGIN_COMMUNICATION_ZMQ "Make use of the ZMQ protocol" OFF)
 option(PLUGIN_COMMUNICATION_VRPN "Make use of the VRPN protocol" OFF)
-option(PLUGIN_COMMUNICATION_Qserial "Make use of the Qserial protocol" OFF)
+option(PLUGIN_COMMUNICATION_QSerial "Make use of the QSerial protocol" OFF)
 
 set(COMMUNICATION_MAJOR_VERSION 1)
 set(COMMUNICATION_MINOR_VERSION 0)
@@ -115,16 +115,16 @@ if(PLUGIN_COMMUNICATION_VRPN)
 
 endif()
 
-#COMMUNICATION Qserial
-if(PLUGIN_COMMUNICATION_Qserial)
-    message("Qserial loaded")
+#COMMUNICATION QSerial
+if(PLUGIN_COMMUNICATION_QSerial)
+    message("QSerial loaded")
     list(APPEND HEADER_FILES
-        components/serverCommunicationQserial.h
-        components/serverCommunicationQserial.inl
+        components/serverCommunicationQSerial.h
+        components/serverCommunicationQSerial.inl
         )
 
     list(APPEND SOURCE_FILES
-        components/serverCommunicationQserial.cpp
+        components/serverCommunicationQSerial.cpp
         )
 endif()
 
