@@ -3,11 +3,11 @@
 #define WIN32_LEAN_AND_MEAN
 #include "serverCommunication.h"
 
-#include <QtWidgets/QApplication>
-#include <QQmlApplicationEngine>
 #include <QObject>
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include <QDebug>
+#include <QCoreApplication>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include <QtSerialPort/QtSerialPort>
 
 #include <iostream>
@@ -54,7 +54,7 @@ protected:
     bool m_running = true;
 
     //////////////////////////////// Inherited from ServerCommunication /////////////////////////////////
-    virtual void sendData(const QByteArray &data) override;
+    virtual void sendData() override;
     virtual void receiveData() override;
 //    virtual std::string defaultDataType() override;
 //    /////////////////////////////////////////////////////////////////////////////////
