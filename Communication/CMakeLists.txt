@@ -10,6 +10,12 @@ set(COMMUNICATION_MAJOR_VERSION 1)
 set(COMMUNICATION_MINOR_VERSION 0)
 set(COMMUNICATION_VERSION ${COMMUNICATION_MAJOR_VERSION}.${COMMUNICATION_MINOR_VERSION})
 
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Multimedia REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5SerialPort)
+
 set(HEADER_FILES
     config.h
     components/CommunicationSubscriber.h
@@ -135,9 +141,9 @@ IF(WIN32)
 ENDIF(WIN32)
 
 add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES} ${EXTRA_FILES})
-target_link_libraries(${PROJECT_NAME} ${Oscpack_LIBRARIES} ${ZMQ_LIBRARIES} ${VRPN_LIBRARIES} SofaCore SofaSimulationGraph)
+target_link_libraries(${PROJECT_NAME} ${Oscpack_LIBRARIES} ${ZMQ_LIBRARIES} ${VRPN_LIBRARIES} SofaCore SofaSimulationGraph Qt5::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DSOFA_BUILD_Communication")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/..")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/.." )
 
 install(TARGETS ${PROJECT_NAME}
     COMPONENT Communication_libraries
