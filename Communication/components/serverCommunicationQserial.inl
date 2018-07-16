@@ -85,18 +85,18 @@ void ServerCommunicationQSerial::sendData()
             serial->setDataBits(QSerialPort::Data8);
             if(serial->open(QIODevice::ReadWrite))
             {
-            try
-            {
-                for (ArgumentList::iterator itArgument = argumentList.begin(); itArgument != argumentList.end(); itArgument++ )
-                    messageStr += createQSerialMessage(subscriber, *itArgument);
+                try
+                {
+                    for (ArgumentList::iterator itArgument = argumentList.begin(); itArgument != argumentList.end(); itArgument++ )
+                        messageStr += createQSerialMessage(subscriber, *itArgument);
 
-                bool status = serial->write(messageStr);
-                if(!status)
-                    msg_warning(this) << "Problem with communication";
-            } catch(const std::exception& e) {
-                if (isVerbose())
-                    msg_info("ServerCommunicationQSerial") << e.what();
-            }
+                    bool status = serial->write(messageStr);
+                    if(!status)
+                        msg_warning(this) << "Problem with communication";
+                } catch(const std::exception& e) {
+                    if (isVerbose())
+                        msg_info("ServerCommunicationQSerial") << e.what();
+                }
             }
             messageStr.clear();
         }
