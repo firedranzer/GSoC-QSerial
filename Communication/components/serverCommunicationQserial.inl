@@ -63,7 +63,6 @@ std::string ServerCommunicationQSerial::defaultDataType()
 void ServerCommunicationQSerial::sendData()
 {
     std::string port = this->d_port.getValueString();
-    address.insert(address.length(), port);
 
     while (this->m_running)
     {
@@ -79,7 +78,7 @@ void ServerCommunicationQSerial::sendData()
             CommunicationSubscriber* subscriber = it->second;
             ArgumentList argumentList = subscriber->getArgumentList();
             messageStr += subscriber->getSubject() + " ";
-            
+
             serial->setPort(port);
             serial->setBaudRate(QSerialPort::Baud9600);
             serial->setDataBits(QSerialPort::Data8);
@@ -103,7 +102,7 @@ void ServerCommunicationQSerial::sendData()
     }
 }
 
-void ServerCommunicationQSerial::createQSerialMessage(CommunicationSubscriber *subscriber, std::string argument)
+std::string ServerCommunicationQSerial::createQSerialMessage(CommunicationSubscriber *subscriber, std::string argument)
 {
     std::stringstream messageStr;
     BaseData* data = fetchDataFromSenderBuffer(subscriber, argument);
@@ -180,10 +179,10 @@ void ServerCommunicationQSerial::receiveData()
             //                    serial->setRequestToSend(true);
             if(serial->waitForReadyRead(2000))
             {
-                bool status = serial->readAll();
-                if(status)
+                QByteArray byteArray = serial->readAll();
+                if(!byteArray.isEmpty())
                 {
-                    QByteArray byteArray = serial->readAll();
+                    //QByteArray byteArray = serial->readAll();
                     processMessage(byteArray);
                 }
                 else
