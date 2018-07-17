@@ -28,8 +28,8 @@ endif()
 if(PLUGIN_COMMUNICATION_VRPN)
     if (VRPN_FOUND)
         list(APPEND SOURCE_FILES
-            Communication_testVRPN.cpp
-        )
+	    Communication_testVRPN.cpp
+	)
     endif ()
 endif()
 
