@@ -61,6 +61,9 @@ set(EXTRA_FILES
 
     examples/VRPN/matrix/Sender/Sender.scn
     examples/VRPN/matrix/Receiver/Receiver.scn
+
+    examples/QSerial/primitives/Receiver/receiver.scn
+    examples/QSerial/primitives/Sender/sender.scn
     )
 
 find_package(SofaFramework REQUIRED)
