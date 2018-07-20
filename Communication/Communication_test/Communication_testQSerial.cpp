@@ -279,17 +279,13 @@ public:
 
 
         std::future<std::string> future = std::async(std::launch::async, [](){
-            // ***************** WORK REQUIRED ***************
-            // qserial::context_t context (1);
-            // qserial::socket_t socket (context, QSerial_SUB);
-            // socket.connect ("tcp://localhost:6000");
-            // socket.setsockopt(QSerial_SUBSCRIBE, "", 0);
-            // int timeout = 3000; // timeout
-            // socket.setsockopt(QSerial_RCVTIMEO, &timeout, sizeof (int));
-            // qserial::message_t reply;
-            // socket.recv (&reply);
-            // std::string rpl = std::string(static_cast<char*>(reply.data()), reply.size());
-
+            serial = new QSerialPort(this);
+            serial->setPort(port);
+            serial->setBaudRate(QSerialPort::Baud9600);
+            serial->setDataBits(QSerialPort::Data8);
+            serial->open(QIODevice::ReadOnly)
+            QByteArray byteArray = serial->readAll();
+            std::string rpl = byteArray.toStdString();
             return rpl;
         });
 
@@ -317,19 +313,19 @@ public:
         root->init(ExecParams::defaultInstance());
         ServerCommunication* aServerCommunication = dynamic_cast<ServerCommunication*>(root->getObject("receiver"));
         root->setAnimate(true);
-        // ***************** WORK REQUIRED ***************
+        
         // sending part
-        // qserial::context_t context (1);
-        // qserial::socket_t socket (context, QSerial_PUB);
-        // socket.bind("tcp://*:6000");
-        // for(int i = 0; i <10000; i++) // a lot ... ensure the receiver, receive at least one value
-        // {
-        //     std::string mesg = "/test ";
-        //     mesg += "int:" + std::to_string(i);
-        //     qserial::message_t reply (mesg.size());
-        //     memcpy (reply.data (), mesg.c_str(), mesg.size());
-        //     socket.send (reply);
-        // }
+        serial = new QSerialPort(this);
+        serial->setPort(port);
+        serial->setBaudRate(QSerialPort::Baud9600);
+        serial->setDataBits(QSerialPort::Data8);
+        serial->open(QIODevice::ReadWrite)
+        for(int i = 0; i <10000; i++) // a lot ... ensure the receiver, receive at least one value
+        {
+            std::string mesg = "/test ";
+            mesg += "int:" + std::to_string(i);
+            serial->write(messageStr);
+        }
         socket.close();
 
         // stop the communication loop and run animation. This will force the use of buffers
